@@ -18,8 +18,10 @@ class Base
 
     /**
      * Check area code in commands that require code to be set.
+     * This method should be used in 'execute()' methods (not in'configure()')
+     * to prevent " Area code is already set" error on "setup:upgrade".
      */
-    private function checkAreaCode()
+    protected function checkAreaCode()
     {
         /**
          * I don't use constructor arguments to get dependencies
@@ -40,11 +42,5 @@ class Base
             $config = $configLoader->load($areaCode);
             $manObj->configure($config);
         }
-    }
-
-    protected function configure()
-    {
-        parent::configure();
-        $this->checkAreaCode();
     }
 }
