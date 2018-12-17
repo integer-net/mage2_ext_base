@@ -10,7 +10,10 @@
       "name": "Alex Gusev", "email": "alex@flancer64.com"
     }
   ],
-  "require": {},
+  "require": {
+    "php": "^7.1"
+
+  },
   "autoload": {
     "files": [
       "registration.php"
