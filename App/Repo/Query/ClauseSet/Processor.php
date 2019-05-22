@@ -80,19 +80,7 @@ class Processor
                 foreach ($entries as $entry) {
                     $alias = $entry->alias;
                     $dir = ($entry->desc) ? \Zend_Db_Select::SQL_DESC : \Zend_Db_Select::SQL_ASC;
-                    if (isset($aliases[$alias])) {
-                        /** @var \Flancer32\Base\App\Repo\Query\ClauseSet\Processor\AliasMapEntry $mapped */
-                        $mapped = $aliases[$alias];
-                        $table = $mapped->table;
-                        $expression = $mapped->expression;
-                        if ($expression instanceof \Magento\Rule\Model\Condition\Sql\Expression) {
-                            $sqlEntry = "$expression $dir";
-                        } else {
-                            /* don't add quotes to names (`table`,`column`), Zend FW will do it. */
-                            $sqlEntry = "$table.$expression $dir";
-                        }
-                        $sqlOrder[] = $sqlEntry;
-                    }
+                    $sqlOrder[] = "$alias $dir";
                 }
                 $query->order($sqlOrder);
             }
