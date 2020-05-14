@@ -97,8 +97,9 @@ class Base
 
     public function deleteSet($where)
     {
-        $result = null;
-        /* TODO: implement entity deletion by clause */
+        $conn = $this->resource->getConnection();
+        $tbl = $this->getTableName();
+        $result = $conn->delete($tbl, $where);
         return $result;
     }
 
@@ -174,9 +175,15 @@ class Base
         $conn = $this->resource->getConnection();
         $query = $conn->select();
         $query->from($tbl, '*');
-        if ($where) $query->where($where);
-        if ($order) $query->order($order);
-        if ($limit) $query->limit($limit, $offset);
+        if ($where) {
+            $query->where($where);
+        }
+        if ($order) {
+            $query->order($order);
+        }
+        if ($limit) {
+            $query->limit($limit, $offset);
+        }
 
         $rs = $conn->fetchAll($query, $bind);
         foreach ($rs as $one) {
