@@ -7,6 +7,7 @@
  */
 
 namespace Flancer32\Base\App\Repo\Query\ClauseSet;
+
 /**
  * Apply set of clauses on query.
  */
@@ -25,14 +26,16 @@ class Processor
     /**
      * @param \Magento\Framework\DB\Select $query
      * @param \Flancer32\Base\App\Repo\Data\ClauseSet $clauses
+     * @param array $aliasMap
      * @param bool $filterOnly 'true' - apply only filter clauses (for totals)
      */
     public function exec(
         \Magento\Framework\DB\Select $query,
         \Flancer32\Base\App\Repo\Data\ClauseSet $clauses,
+        $aliasMap = null,
         $filterOnly = false
     ) {
-        $aliases = $this->mapAliases($query);
+        $aliases = is_null($aliasMap) ? $this->mapAliases($query) : $aliasMap;
         $filter = $clauses->filter;
         $order = $clauses->order;
         $pagination = $clauses->pagination;
@@ -44,22 +47,26 @@ class Processor
     }
 
     /**
-     * @param $query
+     * @param \Magento\Framework\DB\Select $query
      * @return array
      */
     private function mapAliases(\Magento\Framework\DB\Select $query)
     {
         $result = [];
-        $columns = $query->getPart(\Zend_Db_Select::COLUMNS);
-        foreach ($columns as $one) {
-            $table = $one[0];
-            $expression = $one[1];
-            $alias = $one[2];
-            $data = new \Flancer32\Base\App\Repo\Query\ClauseSet\Processor\AliasMapEntry();
-            $data->alias = $alias;
-            $data->expression = $expression;
-            $data->table = $table;
-            $result[$alias] = $data;
+        try {
+            $columns = $query->getPart(\Zend_Db_Select::COLUMNS);
+            foreach ($columns as $one) {
+                $table = $one[0];
+                $expression = $one[1];
+                $alias = $one[2];
+                $data = new \Flancer32\Base\App\Repo\Query\ClauseSet\Processor\AliasMapEntry();
+                $data->alias = $alias;
+                $data->expression = $expression;
+                $data->table = $table;
+                $result[$alias] = $data;
+            }
+        } catch (\Zend_Db_Select_Exception $e) {
+            // just stealth the exception
         }
         return $result;
     }
@@ -67,7 +74,9 @@ class Processor
     private function processFilter($query, $filter, $aliases)
     {
         $where = $this->ownFilterParser->parse($filter, $aliases);
-        if ($where) $query->where($where);
+        if ($where) {
+            $query->where($where);
+        }
     }
 
     private function processOrder($query, $order, $aliases)

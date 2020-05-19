@@ -27,4 +27,20 @@ abstract class Builder
         $this->conn = $resource->getConnection();
     }
 
+    /**
+     * Use in children to create mapping for aliases to table.column or expression.
+     *
+     * @param $alias
+     * @param $table
+     * @param $expression
+     * @return \Flancer32\Base\App\Repo\Query\ClauseSet\Processor\AliasMapEntry
+     */
+    protected function createAliasMapEntry($alias, $table, $expression)
+    {
+        $result = new \Flancer32\Base\App\Repo\Query\ClauseSet\Processor\AliasMapEntry();
+        $result->alias = $alias;
+        $result->table = $table;
+        $result->expression = $expression;
+        return $result;
+    }
 }

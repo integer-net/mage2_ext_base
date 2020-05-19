@@ -74,12 +74,13 @@ class Grid
         $criteria = $this->getSearchCriteria();
         $clauses = $this->adptClauseSet->getClauseSet($criteria);
 
+        $map = $this->qGrid->getAliasMap();
         $qTotal = $this->qGrid->getCountQuery();
-        $this->procClauseSet->exec($qTotal, $clauses, true);
+        $this->procClauseSet->exec($qTotal, $clauses, $map, true);
         $totals = $this->conn->fetchOne($qTotal);
 
         $qItems = $this->qGrid->getSelectQuery();
-        $this->procClauseSet->exec($qItems, $clauses);
+        $this->procClauseSet->exec($qItems, $clauses, $map);
         $items = $this->conn->fetchAll($qItems);
         $result = [
             'items' => $items,

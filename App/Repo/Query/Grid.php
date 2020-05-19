@@ -11,6 +11,13 @@ interface Grid
 {
 
     /**
+     * Map SELECT aliases to "table.column" or "expression" to process UI clauses in .
+     *
+     * @return array
+     */
+    public function getAliasMap();
+
+    /**
      * Base query to select total count for the grid.
      *
      * @return \Magento\Framework\DB\Select
