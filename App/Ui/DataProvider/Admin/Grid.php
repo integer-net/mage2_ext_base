@@ -34,7 +34,7 @@ class Grid
         $searchCriteriaBuilder = $obm->get(\Magento\Framework\Api\Search\SearchCriteriaBuilder::class);
         $request = $obm->get(\Magento\Framework\App\RequestInterface::class);
         $filterBuilder = $obm->get(\Magento\Framework\Api\FilterBuilder::class);
-        $url = $obm->get(\Magento\Framework\UrlInterface::class);
+        $url = $obm->get(\Magento\Backend\Model\UrlInterface::class);
         $adptClauseSet = $obm->get(\Flancer32\Base\App\Repo\Query\ClauseSet\Adapter::class);
         $procClauseSet = $obm->get(\Flancer32\Base\App\Repo\Query\ClauseSet\Processor::class);
 
@@ -42,7 +42,7 @@ class Grid
         $primaryFieldName = 'id';
         $requestFieldName = 'id';
         $meta = [];
-        $updateUrl = $url->getRouteUrl('mui/index/render');
+        $updateUrl = $url->getUrl('mui/index/render');
         $data = [
             'config' => [
                 'component' => 'Magento_Ui/js/grid/provider',
