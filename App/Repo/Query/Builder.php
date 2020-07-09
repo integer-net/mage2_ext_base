@@ -12,6 +12,7 @@ namespace Flancer32\Base\App\Repo\Query;
  * Base for query builders.
  */
 abstract class Builder
+    implements \Flancer32\Base\Api\Repo\Query\Select
 {
     /** @var  \Magento\Framework\DB\Adapter\AdapterInterface */
     protected $conn; // default connection
