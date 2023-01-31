@@ -185,7 +185,7 @@ class Base
             $query->limit($limit, $offset);
         }
 
-        $rs = $conn->fetchAll($query, $bind);
+        $rs = $conn->fetchAll($query, $bind ?? []);
         foreach ($rs as $one) {
             $entity = $this->composeEntity($one);
             $result[] = $entity;
