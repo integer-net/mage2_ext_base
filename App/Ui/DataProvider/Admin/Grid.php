@@ -24,7 +24,8 @@ class Grid
 
     public function __construct(
         $name,
-        \Flancer32\Base\App\Repo\Query\Grid $qGrid
+        \Flancer32\Base\App\Repo\Query\Grid $qGrid,
+        array $customData = []
     ) {
         /* create objects using manager (yes, it's not a good practice) */
         /** @var \Magento\Framework\ObjectManagerInterface $obm */
@@ -47,7 +48,8 @@ class Grid
             'config' => [
                 'component' => 'Magento_Ui/js/grid/provider',
                 'update_url' => $updateUrl
-            ]
+            ],
+            $customData
         ];
 
         /* normal constructor as if args were passed */
